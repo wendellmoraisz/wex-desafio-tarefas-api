@@ -90,5 +90,19 @@ namespace DesafioAgendamentoTarefas.Controllers
             
             return Ok(tarefa);
         }
+
+        [HttpDelete("{id}")]
+        public IActionResult Deletar(int id)
+        {
+            var tarefaBanco = _context.Tarefas.Find(id);
+
+            if (tarefaBanco == null)
+                return NotFound();
+
+            _context.Remove(tarefaBanco);
+            _context.SaveChanges();
+
+            return NoContent();
+        }
     }
 }
