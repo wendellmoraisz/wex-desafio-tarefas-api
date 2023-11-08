@@ -56,5 +56,17 @@ namespace DesafioAgendamentoTarefas.Controllers
             var tarefas = _context.Tarefas.Where(x => x.Status == status);
             return Ok(tarefas);
         }
+
+        [HttpPost("Tarefa")]
+        public IActionResult Criar(Tarefa tarefa)
+        {
+            if (tarefa.Data == DateTime.MinValue)
+                return BadRequest(new { Erro = "A data da tarefa não pode ser vazia" });
+
+            _context.Tarefas.Add(tarefa);
+            _context.SaveChanges();
+            
+            return CreatedAtAction(nameof(ObterPorId), new { id = tarefa.Id }, tarefa);
+        }
     }
 }
