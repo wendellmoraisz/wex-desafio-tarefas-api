@@ -49,5 +49,12 @@ namespace DesafioAgendamentoTarefas.Controllers
             var tarefa = _context.Tarefas.Where(x => x.Data.Date == data.Date);
             return Ok(tarefa);
         }
+
+        [HttpGet("ObterPorStatus")]
+        public IActionResult ObterPorStatus(EStatusTarefa status)
+        {
+            var tarefas = _context.Tarefas.Where(x => x.Status == status);
+            return Ok(tarefas);
+        }
     }
 }
