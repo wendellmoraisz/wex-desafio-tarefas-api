@@ -35,5 +35,15 @@ namespace DesafioAgendamentoTarefas.Controllers
             var tarefas = _context.Tarefas.ToList();
             return Ok(tarefas);
         }
+
+        [HttpGet("ObterPorTitulo")]
+        public IActionResult ObterPorTitulo(string titulo)
+        {
+            var tarefa = _context.Tarefas.Where(x => x.Titulo == titulo);
+
+            if (tarefa == null) return NotFound();
+
+            return Ok(tarefa);
+        }
     }
 }
