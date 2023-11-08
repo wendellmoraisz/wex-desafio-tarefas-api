@@ -68,5 +68,27 @@ namespace DesafioAgendamentoTarefas.Controllers
             
             return CreatedAtAction(nameof(ObterPorId), new { id = tarefa.Id }, tarefa);
         }
+
+        [HttpPut("Tarefa")]
+        public IActionResult Atualizar([FromQuery] int id, [FromBody] Tarefa tarefa)
+        {
+            var tarefaBanco = _context.Tarefas.Find(id);
+
+            if (tarefaBanco == null)
+                return NotFound();
+
+            if (tarefa.Data == DateTime.MinValue)
+                return BadRequest(new { Erro = "A data da tarefa não pode ser vazia" });
+
+            tarefaBanco.Titulo = tarefa.Titulo;
+            tarefaBanco.Descricao = tarefa.Descricao;
+            tarefaBanco.Status = tarefa.Status;
+            tarefaBanco.Data = tarefa.Data;
+
+            _context.Update(tarefaBanco);
+            _context.SaveChanges();
+            
+            return Ok(tarefa);
+        }
     }
 }
