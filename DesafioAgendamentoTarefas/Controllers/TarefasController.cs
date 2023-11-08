@@ -28,5 +28,12 @@ namespace DesafioAgendamentoTarefas.Controllers
             
             return Ok(tarefa);
         }
+
+        [HttpGet("ObterTodos")]
+        public IActionResult ObterTodos()
+        {
+            var tarefas = _context.Tarefas.ToList();
+            return Ok(tarefas);
+        }
     }
 }
