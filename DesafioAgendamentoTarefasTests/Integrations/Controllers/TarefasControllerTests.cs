@@ -49,7 +49,7 @@ namespace DesafioAgendamentoTarefasTests.Integrations.Controllers
             var tituloExistente = "Estudar C#";
 
             var httpResponse = await _httpClient.GetAsync($"/Tarefas/ObterPorTitulo?titulo={tituloExistente}");
-            
+
             httpResponse.EnsureSuccessStatusCode();
             Assert.NotNull(httpResponse.Content);
             Assert.Equal(HttpStatusCode.OK, httpResponse.StatusCode);
@@ -136,5 +136,25 @@ namespace DesafioAgendamentoTarefasTests.Integrations.Controllers
             Assert.NotNull(httpResponse.Content);
             Assert.Equal(HttpStatusCode.Created, httpResponse.StatusCode);
         }
+
+        [Fact]
+        public async Task DeletarTarefaDeveRetornarNoContentQuandoTarefaExistir()
+        {
+            var idExistente = 3;
+
+            var httpResponse = await _httpClient.DeleteAsync($"/Tarefas?id={idExistente}");
+
+            Assert.Equal(HttpStatusCode.NoContent, httpResponse.StatusCode);
+        }
+
+        [Fact]
+        public async Task DeletarTarefa_DeveRetornarNotFoundQuandoTarefaNaoExistir()
+        {
+            var idNaoExistente = 999;
+
+            var httpResponse = await _httpClient.DeleteAsync($"/Tarefas?id={idNaoExistente}");
+
+            Assert.Equal(HttpStatusCode.NotFound, httpResponse.StatusCode);
+        }
     }
-}
+    }
