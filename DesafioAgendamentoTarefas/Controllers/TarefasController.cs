@@ -58,7 +58,7 @@ namespace DesafioAgendamentoTarefas.Controllers
         }
 
         [HttpPost("Tarefa")]
-        public IActionResult Criar(Tarefa tarefa)
+        public IActionResult Criar([FromBody] Tarefa tarefa)
         {
             if (tarefa.Data == DateTime.MinValue)
                 return BadRequest(new { Erro = "A data da tarefa não pode ser vazia" });
