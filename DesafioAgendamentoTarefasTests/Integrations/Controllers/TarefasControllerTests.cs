@@ -34,6 +34,16 @@ namespace DesafioAgendamentoTarefasTests.Integrations.Controllers
         }
 
         [Fact]
+        public async Task ObterTodasTarefasDeveRetornarOk()
+        {
+            var httpResponse = await _httpClient.GetAsync("/Tarefas/ObterTodos");
+
+            httpResponse.EnsureSuccessStatusCode();
+            Assert.NotNull(httpResponse.Content);
+            Assert.Equal(HttpStatusCode.OK, httpResponse.StatusCode);
+        }
+
+        [Fact]
         public async Task CriarTarefaDeveRetornarSucesso()
         {
             var tarefaModel = new Tarefa
