@@ -23,6 +23,17 @@ namespace DesafioAgendamentoTarefasTests.Integrations.Controllers
         }
 
         [Fact]
+        public async Task ObterTarefaPorIdDeveRetornarOkQuandoTarefaExistir()
+        {
+            var idExistente = 2;
+
+            var httpResponse = await _httpClient.GetAsync($"/Tarefas?id={idExistente}");
+
+            httpResponse.EnsureSuccessStatusCode();
+            Assert.Equal(HttpStatusCode.OK, httpResponse.StatusCode);
+        }
+
+        [Fact]
         public async Task CriarTarefaDeveRetornarSucesso()
         {
             var tarefaModel = new Tarefa
@@ -35,7 +46,7 @@ namespace DesafioAgendamentoTarefasTests.Integrations.Controllers
 
             StringContent content = new StringContent(JsonConvert.SerializeObject(tarefaModel), Encoding.UTF8, "application/json");
 
-            var httpResponse = await _httpClient.PostAsync("/Tarefa", content);
+            var httpResponse = await _httpClient.PostAsync("/Tarefas", content);
 
             Assert.NotNull(httpResponse.Content);
             Assert.Equal(HttpStatusCode.Created, httpResponse.StatusCode);
