@@ -10,6 +10,7 @@ using DesafioAgendamentoTarefas.Models;
 
 namespace DesafioAgendamentoTarefas.Controllers
 {
+    [Route("Tarefas")]
     public class TarefasController : Controller
     {
         private readonly OrganizadorContext _context;
@@ -19,8 +20,8 @@ namespace DesafioAgendamentoTarefas.Controllers
             _context = context;
         }
 
-        [HttpGet("{id}")]
-        public IActionResult ObterPorId(int id)
+        [HttpGet]
+        public IActionResult ObterPorId([FromQuery] int id)
         {
             var tarefa = _context.Tarefas.Find(id);
            
@@ -57,7 +58,7 @@ namespace DesafioAgendamentoTarefas.Controllers
             return Ok(tarefas);
         }
 
-        [HttpPost("Tarefa")]
+        [HttpPost]
         public IActionResult Criar([FromBody] Tarefa tarefa)
         {
             if (tarefa.Data == DateTime.MinValue)
@@ -69,7 +70,7 @@ namespace DesafioAgendamentoTarefas.Controllers
             return CreatedAtAction(nameof(ObterPorId), new { id = tarefa.Id }, tarefa);
         }
 
-        [HttpPut("Tarefa")]
+        [HttpPut]
         public IActionResult Atualizar([FromQuery] int id, [FromBody] Tarefa tarefa)
         {
             var tarefaBanco = _context.Tarefas.Find(id);
@@ -91,8 +92,8 @@ namespace DesafioAgendamentoTarefas.Controllers
             return Ok(tarefa);
         }
 
-        [HttpDelete("{id}")]
-        public IActionResult Deletar(int id)
+        [HttpDelete]
+        public IActionResult Deletar([FromQuery] int id)
         {
             var tarefaBanco = _context.Tarefas.Find(id);
 
