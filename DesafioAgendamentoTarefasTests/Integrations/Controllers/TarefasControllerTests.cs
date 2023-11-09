@@ -44,6 +44,18 @@ namespace DesafioAgendamentoTarefasTests.Integrations.Controllers
         }
 
         [Fact]
+        public async Task ObterTarefaPorTituloDeveRetornarOkQuandoTarefaExistir()
+        {
+            var tituloExistente = "Estudar C#";
+
+            var httpResponse = await _httpClient.GetAsync($"/Tarefas/ObterPorTitulo?titulo={tituloExistente}");
+            
+            httpResponse.EnsureSuccessStatusCode();
+            Assert.NotNull(httpResponse.Content);
+            Assert.Equal(HttpStatusCode.OK, httpResponse.StatusCode);
+        }
+
+        [Fact]
         public async Task CriarTarefaDeveRetornarSucesso()
         {
             var tarefaModel = new Tarefa
