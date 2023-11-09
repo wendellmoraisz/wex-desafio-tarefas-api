@@ -56,6 +56,18 @@ namespace DesafioAgendamentoTarefasTests.Integrations.Controllers
         }
 
         [Fact]
+        public async Task ObterTarefaPorDataDeveRetornarOkQuandoTarefaExistir()
+        {
+            var dataExistente = DateTime.Now.Date;
+
+            var httpResponse = await _httpClient.GetAsync($"/Tarefas/ObterPorData?data={dataExistente}");
+
+            httpResponse.EnsureSuccessStatusCode();
+            Assert.NotNull(httpResponse.Content);
+            Assert.Equal(HttpStatusCode.OK, httpResponse.StatusCode);
+        }
+
+        [Fact]
         public async Task CriarTarefaDeveRetornarSucesso()
         {
             var tarefaModel = new Tarefa
