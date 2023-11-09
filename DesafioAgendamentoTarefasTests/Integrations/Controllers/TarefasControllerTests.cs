@@ -80,6 +80,45 @@ namespace DesafioAgendamentoTarefasTests.Integrations.Controllers
         }
 
         [Fact]
+        public async Task AtualizarTarefaDeveRetornarOkQuandoTarefaExistir()
+        {
+            var idExistente = 2;
+            var tarefaAtualizada = new Tarefa
+            {
+                Titulo = "Estudar C# Atualizado",
+                Descricao = "Assistir as aulas do Bootcamp Wex Atualizado",
+                Status = EStatusTarefa.Finalizado,
+                Data = DateTime.Now.AddDays(1)
+            };
+
+            StringContent content = new StringContent(JsonConvert.SerializeObject(tarefaAtualizada), Encoding.UTF8, "application/json");
+
+            var httpResponse = await _httpClient.PutAsync($"/Tarefas?id={idExistente}", content);
+
+            httpResponse.EnsureSuccessStatusCode();
+            Assert.Equal(HttpStatusCode.OK, httpResponse.StatusCode);
+        }
+
+        [Fact]
+        public async Task AtualizarTarefaDeveRetornarBadRequestQuandoDataForVazia()
+        {
+            var idExistente = 2;
+            var tarefaAtualizada = new Tarefa
+            {
+                Titulo = "Estudar C# Atualizado",
+                Descricao = "Assistir as aulas do Bootcamp Wex Atualizado",
+                Status = EStatusTarefa.Finalizado,
+                Data = DateTime.MinValue
+            };
+
+            StringContent content = new StringContent(JsonConvert.SerializeObject(tarefaAtualizada), Encoding.UTF8, "application/json");
+
+            var httpResponse = await _httpClient.PutAsync($"/Tarefas?id={idExistente}", content);
+
+            Assert.Equal(HttpStatusCode.BadRequest, httpResponse.StatusCode);
+        }
+
+        [Fact]
         public async Task CriarTarefaDeveRetornarSucesso()
         {
             var tarefaModel = new Tarefa
